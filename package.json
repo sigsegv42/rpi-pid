@@ -1,0 +1,13 @@
+{
+	"name": "rpi-pid",
+	"description": "A software PID controller implementation",
+	"version": "0.0.1",
+	"author": {
+		"name": "Joshua Farr",
+		"email": "j.wgasa@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": ""
+	}
+}
