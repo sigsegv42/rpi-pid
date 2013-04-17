@@ -28,12 +28,16 @@ class PID
 	dispKd_: 0
 
 	constructor: () ->
+		d = new Date()
+		now = d.getMilliseconds()
 		@lastSample_ = now - @sampleFrequency_
 
 	compute: () =>
 		if @mode_ != "auto"
 			false
 		# get current time
+		d = new Date()
+		now = d.getMilliseconds()
 		# get delta between now and last sample
 		delta = now - @lastSample_
 		if delta < @sampleFrequency_
@@ -59,7 +63,7 @@ class PID
 	tune: (kp, ki, kd) =>
 
 		if kp < 0 or ki < 0 or kd < 0
-			return
+			return @
 		sampleFreqInSecs = @sampleFrequency_ / 1000
 
 		@dispKp_ = kp
@@ -75,11 +79,11 @@ class PID
 			@ki_ = 0 - @ki_
 			@kd_ = 0 - @kd_
 
-		return
+		@
 
 	frequency: (newSampleFrequency) =>
 		if newSampleFrequency <= 0
-			return
+			return @
 		ratio = newSampleFrequency / @sampleFrequency_
 		@ki_ *= ratio
 		@kd_ /= ratio
@@ -88,7 +92,7 @@ class PID
 
 	limit: (min, max) =>
 		if min >= max
-			@
+			return @
 		@outMin_ = min
 		@outMax_ = max
 		if @mode_ == "auto"
@@ -109,6 +113,7 @@ class PID
 			@ki_ = 0 - @ki_
 			@kd_ = 0 - @kd_
 		@direction_ = dir
+		@
 
 
 module.exports.PID = PID
